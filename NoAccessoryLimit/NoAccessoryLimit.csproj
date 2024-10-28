@@ -7,12 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="GDWeave" Private="false"/>
-        <Reference Include="Serilog" Private="false"/>
+        <Reference Include="GDWeave">
+          <HintPath>C:\Program Files (x86)\Steam\steamapps\common\WEBFISHING\GDWeave\core\GDWeave.dll</HintPath>
+        </Reference>
+        <Reference Include="Serilog">
+          <HintPath>C:\Program Files (x86)\Steam\steamapps\common\WEBFISHING\GDWeave\core\Serilog.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="manifest.json" CopyToOutputDirectory="PreserveNewest"/>
+        <None Include="manifest.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(GDWeavePath)' != ''">
@@ -21,14 +25,8 @@
             <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">true</IsLinux>
         </PropertyGroup>
 
-        <Exec
-                Command="xcopy /Y /I &quot;$(TargetDir)&quot; &quot;$(GDWeavePath)/mods/$(AssemblyName)&quot;"
-                Condition="'$(IsWindows)' == 'true'" 
-        />
+        <Exec Command="xcopy /Y /I &quot;$(TargetDir)&quot; &quot;$(GDWeavePath)/mods/$(AssemblyName)&quot;" Condition="'$(IsWindows)' == 'true'" />
 
-        <Exec
-                Command="cp -r $(TargetDir) '$(GDWeavePath)/mods/$(AssemblyName)/'"
-                Condition="'$(IsLinux)' == 'true'" 
-        />
+        <Exec Command="cp -r $(TargetDir) '$(GDWeavePath)/mods/$(AssemblyName)/'" Condition="'$(IsLinux)' == 'true'" />
     </Target>
 </Project>
